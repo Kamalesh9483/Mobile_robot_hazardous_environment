@@ -6,17 +6,14 @@ import scipy.spatial.distance as dist # to find distance
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-# Import the necessary libraries
 from PIL import Image
 from numpy import asarray
-  
-
 #set the image path 
 img_path = 'C:\Projects\Mobile robot in hazardous environment\size estimation\images'
 
 # change the directory to image path
 os.chdir(img_path)
-img = cv2.imread('soil_img2.jpg') #BGR
+img = cv2.imread('soil_img4.jpg') #BGR
 
 #convert to RGB for matplot
 rgb_img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -49,7 +46,9 @@ cv2.createTrackbar("kernel Max","Trackbar", 0, 50, empty)
 cv2.createTrackbar("itr_dilation","Trackbar", 0, 10, empty)
 cv2.createTrackbar("itr_erosion","Trackbar", 0, 10, empty)
 cv2.createTrackbar("gauss_blur","Trackbar", 0, 7, empty)
-cv2.createTrackbar("canny","Trackbar", 0, 100, empty)
+cv2.createTrackbar("canny_l","Trackbar", 0, 100, empty)
+cv2.createTrackbar("canny_u","Trackbar", 0, 100, empty)
+
 
 while True:
        # Getting Trackbar control
@@ -60,18 +59,36 @@ while True:
     itr_dil = cv2.getTrackbarPos("itr_dilation","Trackbar")
     itr_ero = cv2.getTrackbarPos("itr_erosion","Trackbar")
     gaussian_blur = cv2.getTrackbarPos("gauss_blur","Trackbar")
-    cannyfilter = cv2.getTrackbarPos("canny","Trackbar")
+    cannyfilter_l = cv2.getTrackbarPos("canny_l","Trackbar")
+    cannyfilter_u = cv2.getTrackbarPos("canny_u","Trackbar")
 
 #remove noise using threshold
-    thresh, thresh_img = cv2.threshold(gray, thresh_min, thresh_max, cv2.THRESH_BINARY) # cv2.threshold(gray, thresh value, brightness, cv2.THRESH_BINARY)
+    # thresh, thresh_img = cv2.threshold(gray, thresh_min, thresh_max, cv2.THRESH_BINARY_INV) # cv2.threshold(gray, thresh value, brightness, cv2.THRESH_BINARY)
     #show image in Thresh
-    rgb_img = cv2.cvtColor(thresh_img, cv2.COLOR_BGR2RGB)
+    # rgb_img = cv2.cvtColor(thresh_img, cv2.COLOR_BGR2RGB)
 
+    # lap = cv2.Laplacian(gray, cv2.CV_64F, ksize=1)
+    # lap = np.uint8(np.absolute(lap))
+    # sobelX = cv2.Sobel(gray, cv2.CV_64F, 1, 0)
+    # sobelY = cv2.Sobel(gray, cv2.CV_64F, 0, 1)
+    # sobelX = np.uint8(np.absolute(sobelX))
+    # sobelY = np.uint8(np.absolute(sobelY))
+    # sobelCombined = cv2.bitwise_or(sobelX, sobelY)
+    thresh, thresh_img = cv2.threshold(gray, thresh_min, thresh_max, cv2.THRESH_BINARY) # cv2.threshold(gray, thresh value, brightness, cv2.THRESH_BINARY)
+    rgb_img = cv2.cvtColor(thresh_img, cv2.COLOR_BGR2RGB)
     kernel = np.ones((kernel_min, kernel_max), np.uint8)
-    img_dilation = cv2.dilate(rgb_img, kernel, iterations= itr_dil)
+    img_dilation = cv2.dilate(thresh_img, kernel, iterations= itr_dil)
     img_erosion = cv2.erode(img_dilation, kernel, iterations= itr_ero)
-    imgBlur = cv2.GaussianBlur(thresh_img,(gaussian_blur, gaussian_blur),1)
-    imgCanny1 = cv2.Canny(imgBlur, cannyfilter, cannyfilter)
+    # imgBlur = cv2.GaussianBlur(img_erosion,(gaussian_blur, gaussian_blur),1)
+    # imgCanny1 = cv2.Canny(sobelCombined, cannyfilter_l, cannyfilter_u)
+   
+    #show image in Thresh
+    
+    # kernel = np.ones((kernel_min, kernel_max), np.uint8)
+    # img_dilation = cv2.dilate(rgb_img, kernel, iterations= itr_dil)
+    # img_erosion = cv2.erode(img_dilation, kernel, iterations= itr_ero)
+    # imgBlur = cv2.GaussianBlur(img_erosion,(gaussian_blur, gaussian_blur),1)
+    # imgCanny1 = cv2.Canny(imgBlur, cannyfilter_l, cannyfilter_u)
     
     cv2.imshow("Threshed",img_erosion)
     if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -82,28 +99,23 @@ while True:
 # plt.show()
 
 # find the total contours
-conts = cv2.findContours(thresh_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+conts = cv2.findContours(img_erosion, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 print('Total number of contours using cv2 are ', len(conts))
 #fine tune contours by cv2 using imutils
 conts = imutils.grab_contours(conts)
 print('Total number of contours using imutils are ', len(conts))
 
-#create empty image with original dimension
-# cont_img = np.zeros(img.shape)
-
-  
-# load the image and convert into
-# numpy array
-img = Image.open('soil_img2.jpg')
-  
 # asarray() class is used to convert
 # PIL images into NumPy arrays
-cont_img = asarray(img)
+numpydata = asarray(img)
   
-# cont_img = img
-while True:
-    plt.imshow(cont_img )
-    cv2.waitKey(0)
+# above array
+# data = Image.fromarray(numpydata)
+
+#create empty image with original dimension
+# cont_img = np.zeros(img.shape)
+cont_img = numpydata
+#plt.imshow(cont_img)
 #plt.show()
 
 #draw the contours in the empty image - cont_img
@@ -179,3 +191,5 @@ for c in conts:
 plt.figure(figsize=(15,15))
 plt.imshow(cont_img)
 plt.show()
+data = Image.fromarray(cont_img)
+data.show('title')
