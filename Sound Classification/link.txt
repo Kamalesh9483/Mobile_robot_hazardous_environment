@@ -1,0 +1,5 @@
+https://towardsdatascience.com/audio-deep-learning-made-simple-sound-classification-step-by-step-cebc936bbe5
+
+https://www.analyticsvidhya.com/blog/2021/06/introduction-to-audio-classification/
+
+https://www.section.io/engineering-education/machine-learning-for-audio-classification/
