@@ -1,2 +1,2 @@
- # if cv2.contourArea(c) < 10000000:
-    #     continue
+))
+        #fine tune contours by cv2 using imutils

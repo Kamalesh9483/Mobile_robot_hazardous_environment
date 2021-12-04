@@ -8,8 +8,8 @@ con = sqlite3.connect('C:\Projects\Mobile robot in hazardous environment\Pressur
 cur = con.cursor()
 
 # Create table
-cur.execute('''CREATE TABLE sensorValues
-               (temp REAL, pres REAL);''')
+# cur.execute('''CREATE TABLE sensorValues
+#                (temp REAL, pres REAL);''')
 
 # Ax = 0.0
 UDP_IP = "0.0.0.0"
