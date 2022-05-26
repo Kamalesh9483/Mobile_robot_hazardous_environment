@@ -54,14 +54,12 @@ const char* password = "c813da74egys";   //Enter WIFI Password
 #endif
 
 // GPIO Setting
-extern int gpLb =  2; // Left 1
-extern int gpLf = 14; // Left 2
-extern int gpRb = 15; // Right 1
-extern int gpRf = 13; // Right 2
-int ena = 0; // MotorA
-int enb = 16; // MotorB
-extern int gpLed =  4; // Light
-extern String WiFiAddr ="";
+int gpioPWM_1 =  4; // Left 1
+int gpioDIR_1 = 14; // Left 2
+int gpioPWM_2 = 15; // Right 1
+int gpioDIR_2 = 13; // Right 2
+int gpLed =  4; // Light
+String WiFiAddr ="";
 
 void startCameraServer();
 
@@ -71,21 +69,19 @@ void setup() {
   Serial.println();
 
 
-  pinMode(gpLb, OUTPUT); //Left Backward
-  pinMode(gpLf, OUTPUT); //Left Forward
-  pinMode(gpRb, OUTPUT); //Right Forward
-  pinMode(gpRf, OUTPUT); //Right Backward
+  pinMode(gpioPWM_1, OUTPUT); //Left Backward
+  pinMode(gpioDIR_1, OUTPUT); //Left Forward
+  pinMode(gpioPWM_2, OUTPUT); //Right Forward
+  pinMode(gpioDIR_2, OUTPUT); //Right Backward
   pinMode(gpLed, OUTPUT); //Light
 
   //initialize
-  digitalWrite(gpLb, LOW);
-  digitalWrite(gpLf, LOW);
-  digitalWrite(gpRb, LOW);
-  digitalWrite(gpRf, LOW);
+  digitalWrite(gpioPWM_1, LOW);
+  digitalWrite(gpioDIR_1, LOW);
+  digitalWrite(gpioPWM_2, LOW);
+  digitalWrite(gpioDIR_2, LOW);
   digitalWrite(gpLed, LOW);
-  digitalWrite(ena, HIGH);
-  digitalWrite(enb, HIGH);
- 
+  
   camera_config_t config;
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;

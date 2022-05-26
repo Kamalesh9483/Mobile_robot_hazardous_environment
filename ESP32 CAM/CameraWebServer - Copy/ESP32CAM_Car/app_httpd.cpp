@@ -18,14 +18,14 @@
 #include "camera_index.h"
 #include "Arduino.h"
 
-extern int gpLb;
-extern int gpLf;
-extern int gpRb;
-extern int gpRf;
+extern int gpioPWM_1;
+extern int gpioDIR_1;
+extern int gpioPWM_2;
+extern int gpioDIR_2;
 extern int gpLed;
 extern String WiFiAddr;
 
-void WheelAct(int nLf, int nLb, int nRf, int nRb);
+void WheelAct(int PWM_1, int DIR_1, int PWM_2, int DIR_2);
 
 typedef struct {
         size_t size; //number of values used for filtering
@@ -332,32 +332,33 @@ static esp_err_t index_handler(httpd_req_t *req){
 }
 
 static esp_err_t go_handler(httpd_req_t *req){
-    WheelAct(HIGH, LOW, HIGH, LOW);
-    Serial.println("Go");
+    WheelAct(HIGH, HIGH, HIGH, HIGH);
+    Serial.println("FORWARD");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
 static esp_err_t back_handler(httpd_req_t *req){
-    WheelAct(LOW, HIGH, LOW, HIGH);
-    Serial.println("Back");
+    WheelAct(HIGH, LOW, HIGH, LOW);
+    Serial.println("BACK");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
 
 static esp_err_t left_handler(httpd_req_t *req){
-    WheelAct(HIGH, LOW, LOW, HIGH);
-    Serial.println("Left");
+    WheelAct(HIGH, HIGH, HIGH, LOW);
+    Serial.println("LEFT");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
 static esp_err_t right_handler(httpd_req_t *req){
-    WheelAct(LOW, HIGH, HIGH, LOW);
-    Serial.println("Right");
+    WheelAct(HIGH, LOW, HIGH, HIGH);
+    Serial.println("RIGHT");
     httpd_resp_set_type(req, "text/html");
     return httpd_resp_send(req, "OK", 2);
 }
 
 static esp_err_t stop_handler(httpd_req_t *req){
+//    return 0;
     WheelAct(LOW, LOW, LOW, LOW);
     Serial.println("Stop");
     httpd_resp_set_type(req, "text/html");
@@ -486,11 +487,11 @@ void startCameraServer(){
     }
 }
 
-void WheelAct(int nLf, int nLb, int nRf, int nRb)
+void WheelAct(int PWM_1, int DIR_1, int PWM_2, int DIR_2)
 {
 
- digitalWrite(gpLf, nLf);
- digitalWrite(gpLb, nLb);
- digitalWrite(gpRf, nRf);
- digitalWrite(gpRb, nRb);
+ digitalWrite(gpioDIR_1, DIR_1);
+ digitalWrite(gpioPWM_1, PWM_1);
+ digitalWrite(gpioDIR_2, DIR_2);
+ digitalWrite(gpioPWM_2, PWM_2);
 }

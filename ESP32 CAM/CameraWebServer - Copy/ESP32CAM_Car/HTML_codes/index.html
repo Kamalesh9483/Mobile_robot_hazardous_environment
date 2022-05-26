@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+            <script>var xhttp = new XMLHttpRequest();</script>
+            <script>function getsend(arg) { xhttp.open('GET', arg +'?' + new Date().getTime(), true); xhttp.send() } </script>
+        </head>
+        <body>
+            <p align="center">
+                <img src="http://192.168.43.140:81/stream" style="width:300px; transform:rotate(180deg);">
+                </p>
+                <br>
+                <hr>
+                    <p align="center">
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('go')" onmouseup="getsend('stop')" ontouchstart="getsend('go')" ontouchend="getsend('stop')">
+                                <b>Forward</b>
+                            </button>
+                        </p>
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px;" onmousedown="getsend('left')" onmouseup="getsend('stop')" ontouchstart="getsend('left')" ontouchend="getsend('stop')">
+                                <b>Left</b>
+                            </button>&nbsp;
+                            <button style="background-color:indianred;width:80px;height:30px" onmousedown="getsend('stop')" onmouseup="getsend('stop')">
+                                <b>Stop</b>
+                            </button>&nbsp;
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('right')" onmouseup="getsend('stop')" ontouchstart="getsend('right')" ontouchend="getsend('stop')">
+                                <b>Right</b>
+                            </button>
+                        </p>
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('back')" onmouseup="getsend('stop')" ontouchstart="getsend('back')" ontouchend="getsend('stop')">
+                                <b>Backward</b>
+                            </button>
+                        </p>
+                    </p>
+
+                    <p align="center">
+                        <button style="background-color:yellow;width:140px;height:40px" onmousedown="getsend('ledon')">
+                            <b>Light ON</b>
+                        </button>
+                        <button style="background-color:yellow;width:140px;height:40px" onmousedown="getsend('ledoff')">
+                            <b>Light OFF</b>
+                        </button>
+                    </p>
+
+
+
+                    <hr>
+
+                    <p align="center">
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('go')" onmouseup="getsend('stop')" ontouchstart="getsend('go')" ontouchend="getsend('stop')">
+                                <b>Gripper</b>
+                            </button>
+                        </p>
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px;" onmousedown="getsend('left')" onmouseup="getsend('stop')" ontouchstart="getsend('left')" ontouchend="getsend('stop')">
+                                <b>Left</b>
+                            </button>&nbsp;
+                            <button style="backgro{und-color:indianred;width:80px;height:30px" onmousedown="getsend('stop')" onmouseup="getsend('stop')">
+                                <b>Stop</b>
+                            </button>&nbsp;
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('right')" onmouseup="getsend('stop')" ontouchstart="getsend('right')" ontouchend="getsend('stop')">
+                                <b>Right</b>
+                            </button>
+                        </p>
+                        <p align="center">
+                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('back')" onmouseup="getsend('stop')" ontouchstart="getsend('back')" ontouchend="getsend('stop')">
+                                <b>Base</b>
+                            </button>
+                        </p>
+                    </p>
+
+
+
+                    <hr>
+
+                    <style>
+                        body {
+                          text-align: center;
+                          font-family: "Trebuchet MS", Arial;
+                          margin-left:auto;
+                          margin-right:auto;
+                        }
+                        .slider {
+                          width: 300px;
+                        }
+                      </style>
+                      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                    </head>
+                    <body>
+                      <h4>Gripper Position</h4>
+                      <p>Position: <span id="servoPos"></span></p>
+                      <input type="range" min="0" max="180" class="slider" id="servoSlider" onchange="servo(this.value)"/>
+                      <script>
+                        var slider = document.getElementById("servoSlider");
+                        var servoP = document.getElementById("servoPos");
+                        servoP.innerHTML = slider.value;
+                        slider.oninput = function() {
+                          slider.value = this.value;
+                          servoP.innerHTML = this.value;
+                        }
+                        $.ajaxSetup({timeout:1000});
+                        function servo(pos) {
+                          $.get("/?value=" + pos + "&");
+                          {Connection: close};
+                        }
+                      </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <hr>
+
+                    </body>
+                </html>
