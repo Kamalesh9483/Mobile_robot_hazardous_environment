@@ -35,41 +35,14 @@
                     </p>
 
                     <p align="center">
-                        <button style="background-color:yellow;width:140px;height:40px" onmousedown="getsend('ledon')">
+                        <button style="background-color:yellow;width:80px;height:30px" onmousedown="getsend('ledon')">
                             <b>Light ON</b>
                         </button>
-                        <button style="background-color:yellow;width:140px;height:40px" onmousedown="getsend('ledoff')">
+                        <button style="background-color:yellow;width:80px;height:30px" onmousedown="getsend('ledoff')">
                             <b>Light OFF</b>
                         </button>
                     </p>
 
-
-
-                    <hr>
-
-                    <p align="center">
-                        <p align="center">
-                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('go')" onmouseup="getsend('stop')" ontouchstart="getsend('go')" ontouchend="getsend('stop')">
-                                <b>Gripper</b>
-                            </button>
-                        </p>
-                        <p align="center">
-                            <button style="background-color:lightgrey;width:80px;height:30px;" onmousedown="getsend('left')" onmouseup="getsend('stop')" ontouchstart="getsend('left')" ontouchend="getsend('stop')">
-                                <b>Left</b>
-                            </button>&nbsp;
-                            <button style="backgro{und-color:indianred;width:80px;height:30px" onmousedown="getsend('stop')" onmouseup="getsend('stop')">
-                                <b>Stop</b>
-                            </button>&nbsp;
-                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('right')" onmouseup="getsend('stop')" ontouchstart="getsend('right')" ontouchend="getsend('stop')">
-                                <b>Right</b>
-                            </button>
-                        </p>
-                        <p align="center">
-                            <button style="background-color:lightgrey;width:80px;height:30px" onmousedown="getsend('back')" onmouseup="getsend('stop')" ontouchstart="getsend('back')" ontouchend="getsend('stop')">
-                                <b>Base</b>
-                            </button>
-                        </p>
-                    </p>
 
 
 
@@ -81,13 +54,14 @@
                           font-family: "Trebuchet MS", Arial;
                           margin-left:auto;
                           margin-right:auto;
+                          overflow: scroll;
                         }
                         .slider {
                           width: 300px;
                         }
                       </style>
                       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                    </head>
+                   
                     <body>
                       <h4>Gripper Position</h4>
                       <p>Position: <span id="servoPos"></span></p>
@@ -101,17 +75,79 @@
                           servoP.innerHTML = this.value;
                         }
                         $.ajaxSetup({timeout:1000});
-                        function servo(pos) {
-                          $.get("/?value=" + pos + "&");
+                        function servo(gripper) {
+                          $.get("/?value=" + gripper + "&");
+                          {Connection: close};
+                        }
+                        </script>
+                    </body>
+                    <hr>
+
+
+                    <body>
+                      <h4>Left Position</h4>
+                      <p>Position: <span id="servoPos2"></span></p>
+                      <input type="range" min="0" max="180" class="slider" id="servoSlider2" onchange="servo(this.value)"/>
+                      <script>
+                        var slider2 = document.getElementById("servoSlider2");
+                        var servoP2 = document.getElementById("servoPos2");
+                        servoP2.innerHTML = slider2.value;
+                        slider2.oninput = function() {
+                          slider2.value = this.value;
+                          servoP2.innerHTML = this.value;
+                        }
+                        $.ajaxSetup({timeout:1000});
+                        function servo(left) {
+                          $.get("/?value=" + left + "&");
                           {Connection: close};
                         }
                       </script>
+                    </body>
 
+                    <hr>
 
+                    <body>
+                        <h4>Right Position</h4>
+                        <p>Position: <span id="servoPos3"></span></p>
+                        <input type="range" min="0" max="180" class="slider" id="servoSlider3" onchange="servo(this.value)"/>
+                        <script>
+                          var slider3 = document.getElementById("servoSlider3");
+                          var servoP3 = document.getElementById("servoPos3");
+                          servoP3.innerHTML = slider3.value;
+                          slider3.oninput = function() {
+                            slider3.value = this.value;
+                            servoP3.innerHTML = this.value;
+                          }
+                          $.ajaxSetup({timeout:1000});
+                          function servo(right) {
+                            $.get("/?value=" + right + "&");
+                            {Connection: close};
+                          }
+                        </script>
+                      </body>
 
-
-
-
+                      
+                        <hr>
+                        
+                      <body>
+                        <h4>Base Position</h4>
+                        <p>Position: <span id="servoPos4"></span></p>
+                        <input type="range" min="0" max="180" class="slider" id="servoSlider4" onchange="servo(this.value)"/>
+                        <script>
+                          var slider4 = document.getElementById("servoSlider4");
+                          var servoP4 = document.getElementById("servoPos4");
+                          servoP4.innerHTML = slider4.value;
+                          slider4.oninput = function() {
+                            slider4.value = this.value;
+                            servoP4.innerHTML = this.value;
+                          }
+                          $.ajaxSetup({timeout:1000});
+                          function servo(base) {
+                            $.get("/?value=" + base + "&");
+                            {Connection: close};
+                          }
+                        </script>
+                      </body>
 
 
 
